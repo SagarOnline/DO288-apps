@@ -101,6 +101,17 @@ pipeline {
             //TODO: Watch deployment until pod is in 'Running' state	
 		steps{
 			sh "echo 'TODO : Deployment'"
+			script {
+
+                    openshift.withCluster() {
+                      openshift.withProject(env.DEV_PROJECT) {
+                        openshift.selector("dc", "${APP_NAME}").related("pods").untilEach(1){
+				return (it.object().status.phase == "Running")
+			}
+                      }
+		    }
+
+                        }
         	}
 
 	}
@@ -113,7 +124,8 @@ pipeline {
                 script {
                     openshift.withCluster() {
                     // TODO: Tag the ${APP_NAME}:latest image stream in the dev env as ${APP_NAME}:stage in staging
-                    }
+                	openshift.tag("${DEV_PROJECT}/${APP_NAME}:latest", "${STAGE_PROJECT}/${APP_NAME}:stage")    
+		}
                 }
             }
         }
@@ -128,7 +140,12 @@ pipeline {
                    '''
 
                 echo '### Creating a new app in Staging ###'
-                // TODO: Create a new app in staging and expose the service
+		sh '''
+
+			oc new-app ${APP_NAME}:stage -n ${STAGE_PROJECT}
+			oc expose service ${APP_NAME} -n ${STAGE_PROJECT}
+		   '''                
+// TODO: Create a new app in staging and expose the service
             }
         }
 
@@ -142,7 +159,8 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject( "${STAGE_PROJECT}" ) {
                             def deployment = openshift.selector("dc", "${APP_NAME}").rollout()
-                            openshift.selector("dc", "${APP_NAME}").related('pods').untilEach(1) {
+                            deployment.status()
+			    openshift.selector("dc", "${APP_NAME}").related('pods').untilEach(1) {
                                 return (it.object().status.phase == "Running")
                             }
                         }
