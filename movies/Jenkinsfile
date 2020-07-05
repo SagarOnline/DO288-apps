@@ -23,7 +23,7 @@ pipeline {
 
 
     stages {
-
+/*
         stage('Compilation Check') {
             steps {
                 echo '### Checking for compile errors ###'
@@ -63,7 +63,7 @@ pipeline {
                    '''
             }
         }
-
+*/
         stage('Launch new app in DEV env') {
             steps {
                 echo '### Cleaning existing resources in DEV env ###'
@@ -86,7 +86,7 @@ pipeline {
 		sh '''
 
 			oc new-app ${APP_NAME}:latest -n ${DEV_PROJECT}
-			oc expose svc/${APP_NAME} -n ${DEV_PPROJECT}
+			oc expose service ${APP_NAME} -n ${DEV_PROJECT}
 		   '''
                 // TODO: Create a new OpenShift application based on the ${APP_NAME}:latest image stream
                 // TODO: Expose the ${APP_NAME} service for external access
