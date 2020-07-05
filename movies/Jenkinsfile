@@ -65,8 +65,10 @@ pipeline {
         }
 */
         stage('Launch new app in DEV env') {
+
             steps {
                 echo '### Cleaning existing resources in DEV env ###'
+
                 sh '''
                         oc delete all -l app=${APP_NAME} -n ${DEV_PROJECT}
                         oc delete all -l build=${APP_NAME} -n ${DEV_PROJECT}
@@ -76,11 +78,12 @@ pipeline {
 
                 echo '### Creating a new app in DEV env ###'
                 script {
+/*
                     openshift.withCluster() {
                       openshift.withProject(env.DEV_PROJECT) {
                         openshift.selector("bc", "${APP_NAME}").startBuild("--from-file=${APP_NAME}/target/${APP_NAME}.jar", "--wait=true", "--follow=true")
                       }
-					                    }
+*/					                    }
                 }
 
 		sh '''
