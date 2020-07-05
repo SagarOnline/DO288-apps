@@ -53,7 +53,7 @@ pipeline {
                    '''
             }
         }
-
+*/
         stage('Create fat JAR') {
             steps {
                 echo '### Creating fat JAR ###'
@@ -63,7 +63,7 @@ pipeline {
                    '''
             }
         }
-*/
+
         stage('Launch new app in DEV env') {
 
             steps {
@@ -77,7 +77,7 @@ pipeline {
                    '''
 
                 echo '### Creating a new app in DEV env ###'
-/*                script {
+                script {
 
                     openshift.withCluster() {
                       openshift.withProject(env.DEV_PROJECT) {
@@ -86,7 +86,7 @@ pipeline {
 				                    }
 
                 }
-*/
+
 		sh '''
 
 			oc new-app ${APP_NAME}:latest -n ${DEV_PROJECT}
