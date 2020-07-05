@@ -77,16 +77,16 @@ pipeline {
                    '''
 
                 echo '### Creating a new app in DEV env ###'
-                script {
-/*
+/*                script {
+
                     openshift.withCluster() {
                       openshift.withProject(env.DEV_PROJECT) {
                         openshift.selector("bc", "${APP_NAME}").startBuild("--from-file=${APP_NAME}/target/${APP_NAME}.jar", "--wait=true", "--follow=true")
                       }
 				                    }
-*/
-                }
 
+                }
+*/
 		sh '''
 
 			oc new-app ${APP_NAME}:latest -n ${DEV_PROJECT}
