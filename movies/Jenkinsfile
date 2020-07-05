@@ -83,7 +83,8 @@ pipeline {
                       openshift.withProject(env.DEV_PROJECT) {
                         openshift.selector("bc", "${APP_NAME}").startBuild("--from-file=${APP_NAME}/target/${APP_NAME}.jar", "--wait=true", "--follow=true")
                       }
-*/					                    }
+				                    }
+*/
                 }
 
 		sh '''
