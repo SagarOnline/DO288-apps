@@ -6,14 +6,15 @@ pipeline {
     agent {
       node {
         //TODO: Add label for the Maven jenkins agent
+	label 'maven'
       }
     }
 
     environment {
         //TODO: Customize these variables for your environment
-        DEV_PROJECT = "youruser-movies-dev"
-        STAGE_PROJECT = "youruser-movies-stage"
-        APP_GIT_URL = "https://github.com/youruser/DO288-apps"
+        DEV_PROJECT = "schopade-movies-dev"
+        STAGE_PROJECT = "schopade-movies-stage"
+        APP_GIT_URL = "https://github.com/SagarOnline/DO288-apps"
         NEXUS_SERVER = "http://nexus-common.apps.cluster.domain.example.com/repository/java"
 
         // DO NOT CHANGE THE GLOBAL VARS BELOW THIS LINE
@@ -87,7 +88,8 @@ pipeline {
         }
 
         stage('Wait for deployment in DEV env') {
-            //TODO: Watch deployment until pod is in 'Running' state
+            //TODO: Watch deployment until pod is in 'Running' state	
+		sh "echo 'TODO : Deployment'"
         }
 
         stage('Promote to Staging Env') {
